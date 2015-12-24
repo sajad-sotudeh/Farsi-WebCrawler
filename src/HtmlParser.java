@@ -22,6 +22,15 @@ public class HtmlParser {
     public String get_title(Document doc, String site){
         Element title = null;
         switch (site){
+            case "mikhkub":
+                doc.getElementsByClass("h3_job_title").get(0).getElementsByClass("job_title_desc").remove();
+                Element jobTitle_mikhkub1 = doc.getElementsByClass("h3_job_title").get(0);
+                if(jobTitle_mikhkub1 != null){
+                    title = jobTitle_mikhkub1;
+                }
+                else
+                    title = null;
+                break;
             case "irkaryabi":
                 Element jobTitle_irkaryabi = doc.getElementsByClass("topic").get(0).getElementsByTag("a").get(0);
                 if(jobTitle_irkaryabi != null) {
@@ -67,6 +76,14 @@ public class HtmlParser {
     public String get_content(Document doc, String site){
         String content = "";
         switch (site) {
+            case "mikhkub":
+                Element jobContent_mikhkub =  doc.select("div.matnjob").first();
+                if(jobContent_mikhkub != null){
+                    content = jobContent_mikhkub.text();
+                }
+                else
+                    content = null;
+                break;
             case "irkaryabi":
                 Element jobContent_karyabi = doc.select("div.summary").get(0);
                 if (jobContent_karyabi != null ){
@@ -108,14 +125,21 @@ public class HtmlParser {
     }
 
     public String get_date(Document doc, String site){
-        String date="";
+        String date = null;
         switch (site){
-            case "irkaryabi":
+            case "mikhkub":
                 PersianCalendar persianCalendar = new PersianCalendar(new Date());
                 String y = String.valueOf(persianCalendar.get(Calendar.YEAR));
                 String m = String.valueOf(persianCalendar.get(Calendar.MONTH) + 1);
                 String d = String.valueOf(persianCalendar.get(Calendar.DAY_OF_MONTH));
                 date = y + "-" + m + "-" + d;
+                break;
+            case "irkaryabi":
+                PersianCalendar persianCalendar1 = new PersianCalendar(new Date());
+                String y1 = String.valueOf(persianCalendar1.get(Calendar.YEAR));
+                String m1 = String.valueOf(persianCalendar1.get(Calendar.MONTH) + 1);
+                String d1 = String.valueOf(persianCalendar1.get(Calendar.DAY_OF_MONTH));
+                date = y1 + "-" + m1 + "-" + d1;
                 break;
             case "karbank":
                 Elements dateJob = doc.select("div#jobDetail > div");
