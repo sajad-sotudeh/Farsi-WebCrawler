@@ -10,5 +10,6 @@
     <orderEntry type="library" name="crawler4j-3.5" level="project" />
     <orderEntry type="library" name="jsoup-1.8.3" level="project" />
     <orderEntry type="library" name="lucene-core-5.2.1" level="project" />
+    <orderEntry type="library" name="perisan_calendar" level="project" />
   </component>
 </module>

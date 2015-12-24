@@ -1,3 +1,4 @@
+import com.ghasemkiani.util.icu.PersianCalendar;
 import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
 import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import org.jsoup.nodes.Document;
@@ -6,6 +7,12 @@ import org.jsoup.select.Elements;
 
 import javax.print.Doc;
 import java.nio.channels.CancelledKeyException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by dell on 2015-12-20.
@@ -15,13 +22,21 @@ public class HtmlParser {
     public String get_title(Document doc, String site){
         Element title = null;
         switch (site){
-            case "karbank":
-                Element jobTitle = doc.getElementById("jobTitle");
-                if(jobTitle != null){
-                    title = jobTitle;
+            case "irkaryabi":
+                Element jobTitle_irkaryabi = doc.getElementsByClass("topic").get(0).getElementsByTag("a").get(0);
+                if(jobTitle_irkaryabi != null) {
+                    title = jobTitle_irkaryabi;
                 }
                 else
-                title = null;
+                    title = null;
+                break;
+            case "karbank":
+                Element jobTitle_karbank = doc.getElementById("jobTitle");
+                if(jobTitle_karbank != null){
+                    title = jobTitle_karbank;
+                }
+                else
+                    title = null;
                 break;
             case "e-estekhdam":
                 Elements elems = doc.getElementsByClass("entry-title");
@@ -52,10 +67,18 @@ public class HtmlParser {
     public String get_content(Document doc, String site){
         String content = "";
         switch (site) {
+            case "irkaryabi":
+                Element jobContent_karyabi = doc.select("div.summary").get(0);
+                if (jobContent_karyabi != null ){
+                    content = jobContent_karyabi.text();
+                }
+                else
+                    content = null;
+                break;
             case "karbank":
-                Elements jobContent = doc.select("div.ls15");
-                if(jobContent != null){
-                    content = jobContent.text();
+                Elements jobContent_karbank = doc.select("div.ls15");
+                if(jobContent_karbank != null){
+                    content = jobContent_karbank.text();
                 }else
                 content = null;
                 break;
@@ -87,13 +110,20 @@ public class HtmlParser {
     public String get_date(Document doc, String site){
         String date="";
         switch (site){
+            case "irkaryabi":
+                PersianCalendar persianCalendar = new PersianCalendar(new Date());
+                String y = String.valueOf(persianCalendar.get(Calendar.YEAR));
+                String m = String.valueOf(persianCalendar.get(Calendar.MONTH) + 1);
+                String d = String.valueOf(persianCalendar.get(Calendar.DAY_OF_MONTH));
+                date = y + "-" + m + "-" + d;
+                break;
             case "karbank":
-                Element dateJob = doc.select("div#jobDetail > div ").get(13);
-                if( dateJob != null ){
-                    date = dateJob.text();
+                Elements dateJob = doc.select("div#jobDetail > div");
+                for (Element elem_k : dateJob){
+                    if(elem_k.text().equals("تاريخ انتشار آگهی")){
+                        date = elem_k.nextElementSibling().text();
+                    }
                 }
-                else
-                    date = null;
                 break;
             case "e-estekhdam":
                 Element elem_ees = doc.getElementsByTag("time").get(0);
@@ -115,5 +145,60 @@ public class HtmlParser {
         }
         return date;
     }
-
+    public String get_numeric_date(String date){
+        Pattern filter = Pattern.compile("^(\\d+) (.*) (\\d+)");
+        String date1 = "16 آذر 1394";
+        Matcher m = filter.matcher(date1);
+        String real_time = null;
+        System.out.println("datee in f: " + date1);
+        if(m.find()){
+//            System.out.println("first: " +m.group(0));
+//            System.out.println("firstt: " +m.group(1));
+//            System.out.println("secondd: " +m.group(2));
+//            System.out.println("thirdd: " +m.group(3));
+            String day = m.group(1);
+            String year = m.group(3);
+            String month = m.group(2);
+            switch (month){
+                case "فروردین":
+                    month = "1";
+                    break;
+                case "اردیبهشت":
+                    month = "2";
+                    break;
+                case "خرداد":
+                    month = "3";
+                    break;
+                case "تیر":
+                    month = "4";
+                    break;
+                case "مرداد":
+                    month = "5";
+                    break;
+                case "شهریور":
+                    month = "6";
+                    break;
+                case "مهر":
+                    month = "7";
+                    break;
+                case "آبان":
+                    month = "8";
+                    break;
+                case "آذر":
+                    month = "9";
+                    break;
+                case "دی":
+                    month = "10";
+                    break;
+                case "بهمن":
+                    month = "11";
+                    break;
+                case "اسفند":
+                    month = "12";
+                    break;
+            }
+            real_time = year + "-" + month + "-" + day;
+        }
+        return real_time;
+    }
 }
