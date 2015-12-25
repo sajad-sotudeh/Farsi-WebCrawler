@@ -5,6 +5,9 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import org.apache.log4j.BasicConfigurator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Controller {
     public static void main(String[] args) throws Exception {
         BasicConfigurator.configure();
@@ -20,7 +23,7 @@ public class Controller {
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
         CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-        config.setMaxDepthOfCrawling(2);
+        config.setMaxDepthOfCrawling(5);
         config.setMaxPagesToFetch(1000);
 
     /*
@@ -31,12 +34,17 @@ public class Controller {
 
        // controller.addSeed("http://www.e-estekhdam.com");
 
-        String urls[] = {"http://dehvand.ir/","http://www.e-estekhdam.com/"};
-        for(String url : urls) {
+        List<String> url_list = new ArrayList<String>();
+        for (int i=1; i<25; i++) {
+            String mem = "http://mazandkar.ir/index.php/site/index?Addjob_page=" + i + "&language=fa";
+            url_list.add(mem);
+        }
+
+                //,"http://dehvand.ir/","http://www.e-estekhdam.com/"};
+        for(String url : url_list) {
             System.out.println(url + " START");
             controller.addSeed(url);
             System.out.println(url + " END");
-
         }
 //        controller.addSeed("http://dehvand.ir/");
 //        System.out.println("CRAWLER for estekhdam START");

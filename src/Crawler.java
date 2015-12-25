@@ -45,7 +45,6 @@ public class Crawler extends WebCrawler {
             String real_href = java.net.URLDecoder.decode(href, "UTF-8");
 
             if( href.startsWith("http://www.e-estekhdam.com/") ){
-                System.out.println("in estekh");
                 Pattern filter = Pattern.compile("^http://www.e-estekhdam.com/استخدام.*");
                 if(filter.matcher(real_href).matches() && !real_href.contains("comment") && !real_href.contains("replytocom")) {
                     sholudVisitCounter++;
@@ -61,6 +60,16 @@ public class Crawler extends WebCrawler {
                     sholudVisitCounter++;
                     System.out.println("shouldVisitCounter: "+ sholudVisitCounter);
                     should = true;
+                }
+            }
+            else if( href.startsWith("http://mazandkar.ir/") ){
+                Pattern filter = Pattern.compile("^http://mazandkar.ir/.*viewj/\\d+.*");
+                if(filter.matcher(real_href).matches()){
+                    sholudVisitCounter++;
+                    System.out.println("in mazandkar");
+                    should = true;
+                    System.out.println(real_href);
+                    System.out.println("should visit counter: " + sholudVisitCounter);
                 }
             }
             return should;
