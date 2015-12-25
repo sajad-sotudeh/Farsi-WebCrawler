@@ -32,6 +32,10 @@ public class HtmlParser {
                 title = doc.getElementsByTag("h1").first();
                 //System.out.println("devand title: "+ dehvand_title.text());
                 break;
+            case "mazand":
+                Element mazand_elems = doc.getElementsByClass("detail-view").first();
+                title = mazand_elems.select("tr").first().select("td").first();
+               // title = doc.
         }
         return title != null ? title.text() : null;
     }
@@ -58,6 +62,9 @@ public class HtmlParser {
                 }
                 //System.out.println("dehvand cnt: " + result_deh.text());
                 break;
+            case "mazand":
+                content = doc.getElementsByClass("detail-view").first().text();
+                break;
         }
         return content;
     }
@@ -79,6 +86,9 @@ public class HtmlParser {
                 }
                 //System.out.println("deh date: " + date);
                 break;
+            case "mazand":
+                Element mazand_elems = doc.getElementsByClass("detail-view").first();
+                date = mazand_elems.select("tr").get(14).select("td").first().text();
         }
         return date;
     }
