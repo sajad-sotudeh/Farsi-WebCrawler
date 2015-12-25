@@ -74,6 +74,19 @@ public class HtmlParser {
                 Element mazand_elems = doc.getElementsByClass("detail-view").first();
                 title = mazand_elems.select("tr").first().select("td").first().text();
                // title = doc.
+                break;
+            case "niazerooz":
+                Element jobTitle_niazerooz = doc.getElementsByClass("ads-title").get(0).getElementsByTag("h1").get(0);
+                if (jobTitle_niazerooz != null){
+                    title = jobTitle_niazerooz.text();
+                }
+                break;
+            case "harjaee":
+                Element jobTitle_harjaee = doc.select("div#container > div#content > h1").get(0);
+                if (jobTitle_harjaee != null){
+                    title = jobTitle_harjaee.text();
+                }
+                break;
         }
         return title;
     }
@@ -132,6 +145,18 @@ public class HtmlParser {
             case "mazand":
                 content = doc.getElementsByClass("detail-view").first().text();
                 break;
+            case "niazerooz":
+                Element jobContent_niazerooz = doc.getElementsByClass("discription").get(0);
+                if (jobContent_niazerooz != null){
+                    content = jobContent_niazerooz.text();
+                }
+                break;
+            case "harjaee":
+                Element jobContent_harjaee = doc.select("div.center > div").get(2);
+                if(jobContent_harjaee != null){
+                    content = jobContent_harjaee.text();
+                }
+                break;
         }
         return content;
     }
@@ -185,6 +210,21 @@ public class HtmlParser {
             case "mazand":
                 Element mazand_elems = doc.getElementsByClass("detail-view").first();
                 date = mazand_elems.select("tr").get(14).select("td").first().text();
+                break;
+            case "niazerooz":
+                PersianCalendar persianCalendar_niazerooz = new PersianCalendar(new Date());
+                String y_niazerooz = String.valueOf(persianCalendar_niazerooz.get(Calendar.YEAR));
+                String m_niazerooz = String.valueOf(persianCalendar_niazerooz.get(Calendar.MONTH) + 1);
+                String d_niazerooz = String.valueOf(persianCalendar_niazerooz.get(Calendar.DAY_OF_MONTH));
+                date = y_niazerooz + "-" + m_niazerooz + "-" + d_niazerooz;
+                break;
+            case "harjaee":
+                PersianCalendar persianCalendar_harjaee = new PersianCalendar(new Date());
+                String y_harjaee = String.valueOf(persianCalendar_harjaee.get(Calendar.YEAR));
+                String m_harjaee = String.valueOf(persianCalendar_harjaee.get(Calendar.MONTH) + 1);
+                String d_harjaee = String.valueOf(persianCalendar_harjaee.get(Calendar.DAY_OF_MONTH));
+                date = y_harjaee + "-" + m_harjaee + "-" + d_harjaee;
+                break;
         }
         return date;
     }
