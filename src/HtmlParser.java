@@ -15,6 +15,14 @@ public class HtmlParser {
     public String get_title(Document doc, String site){
         Element title = null;
         switch (site){
+            case "karbank":
+                Element jobTitle = doc.getElementById("jobTitle");
+                if(jobTitle != null){
+                    title = jobTitle;
+                }
+                else
+                title = null;
+                break;
             case "e-estekhdam":
                 Elements elems = doc.getElementsByClass("entry-title");
                 if(elems.size() < 1){
@@ -44,6 +52,13 @@ public class HtmlParser {
     public String get_content(Document doc, String site){
         String content = "";
         switch (site) {
+            case "karbank":
+                Elements jobContent = doc.select("div.ls15");
+                if(jobContent != null){
+                    content = jobContent.text();
+                }else
+                content = null;
+                break;
             case "e-estekhdam":
                 Elements result_ees = doc.getElementsByClass("entry-content");
                 if(result_ees.size()<1){
@@ -72,6 +87,14 @@ public class HtmlParser {
     public String get_date(Document doc, String site){
         String date="";
         switch (site){
+            case "karbank":
+                Element dateJob = doc.select("div#jobDetail > div ").get(13);
+                if( dateJob != null ){
+                    date = dateJob.text();
+                }
+                else
+                    date = null;
+                break;
             case "e-estekhdam":
                 Element elem_ees = doc.getElementsByTag("time").get(0);
                 date = elem_ees.attr("datetime").substring(0,10);
