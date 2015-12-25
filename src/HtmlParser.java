@@ -87,6 +87,12 @@ public class HtmlParser {
                     title = jobTitle_harjaee.text();
                 }
                 break;
+            case "ahwniaz":
+                Element jobTitle_ahwniaz = doc.select("div.ad-body > h1").get(0);
+                if (jobTitle_ahwniaz != null){
+                    title = jobTitle_ahwniaz.text();
+                }
+                break;
         }
         return title;
     }
@@ -157,6 +163,12 @@ public class HtmlParser {
                     content = jobContent_harjaee.text();
                 }
                 break;
+            case "ahwniaz":
+                Element jobContent_ahwniaz = doc.getElementsByClass("matn").get(1);
+                if (jobContent_ahwniaz != null){
+                    content = jobContent_ahwniaz.text();
+                }
+                break;
         }
         return content;
     }
@@ -224,6 +236,13 @@ public class HtmlParser {
                 String m_harjaee = String.valueOf(persianCalendar_harjaee.get(Calendar.MONTH) + 1);
                 String d_harjaee = String.valueOf(persianCalendar_harjaee.get(Calendar.DAY_OF_MONTH));
                 date = y_harjaee + "-" + m_harjaee + "-" + d_harjaee;
+                break;
+            case "ahwniaz":
+                PersianCalendar persianCalendar_ahwniaz = new PersianCalendar(new Date());
+                String y_ahwniaz = String.valueOf(persianCalendar_ahwniaz.get(Calendar.YEAR));
+                String m_ahwniaz = String.valueOf(persianCalendar_ahwniaz.get(Calendar.MONTH) + 1);
+                String d_ahwniaz = String.valueOf(persianCalendar_ahwniaz.get(Calendar.DAY_OF_MONTH));
+                date = y_ahwniaz + "-" + m_ahwniaz + "-" + d_ahwniaz;
                 break;
         }
         return date;
