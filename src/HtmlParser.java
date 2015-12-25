@@ -20,13 +20,19 @@ import java.util.regex.Pattern;
 public class HtmlParser {
 
     public String get_title(Document doc, String site){
-        Element title = null;
+        String title = null;
         switch (site){
+            case "gilantabligh":
+                Element jobTitle_gilan = doc.getElementsByClass("entry-title").get(0);
+                if(jobTitle_gilan != null){
+                    title = jobTitle_gilan.text();
+                }
+                break;
             case "mikhkub":
                 doc.getElementsByClass("h3_job_title").get(0).getElementsByClass("job_title_desc").remove();
                 Element jobTitle_mikhkub1 = doc.getElementsByClass("h3_job_title").get(0);
                 if(jobTitle_mikhkub1 != null){
-                    title = jobTitle_mikhkub1;
+                    title = jobTitle_mikhkub1.text();
                 }
                 else
                     title = null;
@@ -34,7 +40,7 @@ public class HtmlParser {
             case "irkaryabi":
                 Element jobTitle_irkaryabi = doc.getElementsByClass("topic").get(0).getElementsByTag("a").get(0);
                 if(jobTitle_irkaryabi != null) {
-                    title = jobTitle_irkaryabi;
+                    title = jobTitle_irkaryabi.text();
                 }
                 else
                     title = null;
@@ -42,7 +48,7 @@ public class HtmlParser {
             case "karbank":
                 Element jobTitle_karbank = doc.getElementById("jobTitle");
                 if(jobTitle_karbank != null){
-                    title = jobTitle_karbank;
+                    title = jobTitle_karbank.text();
                 }
                 else
                     title = null;
@@ -54,28 +60,34 @@ public class HtmlParser {
                 }
                 for ( Element elem : elems ){
                     if( elem.getElementsByTag("a") != null){
-                        title =  elem.getElementsByTag("a").get(0);
+                        title =  elem.getElementsByTag("a").get(0).text();
                     }
                 }
             break;
             case "dehvand":
                // Element dehvand_title = doc.select("div#wrapper  div#main  div.post single-post  div.posts  h1  a").first();
                 //System.out.println(dehvand_title.text());
-                title = doc.getElementsByTag("h1").first();
+                title = doc.getElementsByTag("h1").first().text();
                 //System.out.println("devand title: "+ dehvand_title.text());
                 break;
             case "mazand":
                 Element mazand_elems = doc.getElementsByClass("detail-view").first();
-                title = mazand_elems.select("tr").first().select("td").first();
+                title = mazand_elems.select("tr").first().select("td").first().text();
                // title = doc.
         }
-        return title != null ? title.text() : null;
+        return title;
     }
 
 
     public String get_content(Document doc, String site){
-        String content = "";
+        String content = null;
         switch (site) {
+            case "gilantabligh":
+                Element jobContent_gilan = doc.getElementsByClass("entry-content").get(0);
+                if(jobContent_gilan != null){
+                    content = jobContent_gilan.text();
+                }
+                break;
             case "mikhkub":
                 Element jobContent_mikhkub =  doc.select("div.matnjob").first();
                 if(jobContent_mikhkub != null){
@@ -127,19 +139,26 @@ public class HtmlParser {
     public String get_date(Document doc, String site){
         String date = null;
         switch (site){
-            case "mikhkub":
-                PersianCalendar persianCalendar = new PersianCalendar(new Date());
-                String y = String.valueOf(persianCalendar.get(Calendar.YEAR));
-                String m = String.valueOf(persianCalendar.get(Calendar.MONTH) + 1);
-                String d = String.valueOf(persianCalendar.get(Calendar.DAY_OF_MONTH));
-                date = y + "-" + m + "-" + d;
+            case "gilantabligh":
+                PersianCalendar persianCalendar_gilan = new PersianCalendar(new Date());
+                String y_gilan = String.valueOf(persianCalendar_gilan.get(Calendar.YEAR));
+                String m_gilan = String.valueOf(persianCalendar_gilan.get(Calendar.MONTH) + 1);
+                String d_gilan = String.valueOf(persianCalendar_gilan.get(Calendar.DAY_OF_MONTH));
+                date = y_gilan + "-" + m_gilan + "-" + d_gilan;
                 break;
-            case "irkaryabi":
+            case "mikhkub":
                 PersianCalendar persianCalendar1 = new PersianCalendar(new Date());
                 String y1 = String.valueOf(persianCalendar1.get(Calendar.YEAR));
                 String m1 = String.valueOf(persianCalendar1.get(Calendar.MONTH) + 1);
                 String d1 = String.valueOf(persianCalendar1.get(Calendar.DAY_OF_MONTH));
                 date = y1 + "-" + m1 + "-" + d1;
+                break;
+            case "irkaryabi":
+                PersianCalendar persianCalendar2 = new PersianCalendar(new Date());
+                String y2 = String.valueOf(persianCalendar2.get(Calendar.YEAR));
+                String m2 = String.valueOf(persianCalendar2.get(Calendar.MONTH) + 1);
+                String d2 = String.valueOf(persianCalendar2.get(Calendar.DAY_OF_MONTH));
+                date = y2 + "-" + m2 + "-" + d2;
                 break;
             case "karbank":
                 Elements dateJob = doc.select("div#jobDetail > div");
