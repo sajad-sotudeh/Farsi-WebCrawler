@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="lucene-core-5.2.1">
+    <CLASSES>
+      <root url="jar://E:/University/Information Retrieval/Final Project/Libraries/lucene-5.2.1/core/lucene-core-5.2.1.jar!/" />
+      <root url="jar://E:/University/Information Retrieval/Final Project/Libraries/lucene-5.2.1/analysis/common/lucene-analyzers-common-5.2.1.jar!/" />
+      <root url="jar://E:/University/Information Retrieval/Final Project/Libraries/lucene-5.2.1/queries/lucene-queries-5.2.1.jar!/" />
+      <root url="jar://E:/University/Information Retrieval/Final Project/Libraries/lucene-5.2.1/queryparser/lucene-queryparser-5.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
